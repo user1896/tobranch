@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 id : 1
 
 name : abderazak
 
 video games : age of empire IV (just to prove that I can do what ever when solving a conflictx)
+=======
+id : 22
+sdn_controler : 10.20.2.2
+name : abderazak
+>>>>>>> btest
