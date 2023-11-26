@@ -33,10 +33,33 @@ const generatorObj2 = generatorfct2()
 
 console.log(generatorObj2.next())
 console.log(generatorObj2.next(22))
-/*
-    ".next()" will execute the code till "yield v + 1" so "value = 0 + 1 == 1"
-    "yield v + 1" will pause the execution of the function instance, so "v = yield v + 1" will not be executed
-    Then "next(22)" will replace the whole of the "yield" command, so "yield v + 1" will be replaced by 22.
-    Now "v == 22", so "v = yield v + 2" will pause the code before assigning a value to "v" and "yield v + 2"
-    will return "22 + 2 == 24"
-*/
+
+// ".next()" will execute the code till "yield v + 1" so "value = 0 + 1 == 1"
+// "yield v + 1" will pause the execution of the function instance, so "v = yield v + 1" will not be executed
+// Then "next(22)" will replace the whole of the "yield" command, so "yield v + 1" will be replaced by 22.
+// Now "v == 22", so "v = yield v + 2" will pause the code before assigning a value to "v" and "yield v + 2"
+// will return "22 + 2 == 24"
+
+////////////////////////////////////////////////
+// Generator inside a generator
+////////////////////////////////////////////////
+console.log("generator inside a generator")
+
+function* inner(){
+    console.log("inner before z")
+    yield "z"
+    console.log("inner after z")
+}
+
+function* outer(){
+    console.log("before 1")
+    yield 1
+    console.log("before inner")
+    yield* inner()
+    console.log("after inner")
+}
+
+const gen = outer()
+console.log(gen.next()) // before 1
+console.log(gen.next()) // before inner / inner before z
+console.log(gen.next()) //inner after z / after inner
