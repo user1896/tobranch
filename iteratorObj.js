@@ -1,10 +1,13 @@
+// a fucntion that returns a random number between 0 and "max"
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
+// Potential dragon's characteristics
 let dragonColors = ['red','blue','green','purple','yellow']
 let dragonAbilities = ['frost','fire','arcane','dark Magic']
 
+// a factory function that returns a dragon with random characteristics every time
 function makeDragon(){
     return {
         color: dragonColors[getRandomInt(5)],
@@ -12,6 +15,7 @@ function makeDragon(){
     }
 }
 
+// implement the "next()" method inside the iterator
 // const dragonArmy = {
 //     [Symbol.iterator]: () => {
 //         return{
@@ -31,7 +35,7 @@ function makeDragon(){
 //     }
 // }
 
-// 
+// implement the "next()" method outside the iterator
 const dragonArmy2 = {
     [Symbol.iterator]: function() { // the method must not be an arrow function because it has the "this" keyword
         return this
