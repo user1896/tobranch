@@ -15,25 +15,33 @@ function makeDragon(){
     }
 }
 
+////////////////////////
+// FIRST IMPLEMENTATION
+////////////////////////
+
 // implement the "next()" method inside the iterator
-// const dragonArmy = {
-//     [Symbol.iterator]: () => {
-//         return{
-//             next: () => {
-//                 enoughDragonSpawned = Math.random() > 0.75
-//                 if( !enoughDragonSpawned ){
-//                     return{
-//                         value: makeDragon(),
-//                         done: false
-//                     }
-//                 }
-//                 else{
-//                     return{done: true}
-//                 }
-//             }
-//         }
-//     }
-// }
+const dragonArmy = {
+    [Symbol.iterator]: () => {
+        return{
+            next: () => {
+                enoughDragonSpawned = Math.random() > 0.75
+                if( !enoughDragonSpawned ){
+                    return{
+                        value: makeDragon(),
+                        done: false
+                    }
+                }
+                else{
+                    return{done: true}
+                }
+            }
+        }
+    }
+}
+
+////////////////////////
+// SECOND IMPLEMENTATION
+////////////////////////
 
 // implement the "next()" method outside the iterator
 const dragonArmy2 = {
@@ -56,6 +64,22 @@ const dragonArmy2 = {
     }
 }
 
-for(const dragon of dragonArmy2){
+////////////////////////
+// THIRD IMPLEMENTATION
+////////////////////////
+
+// using a generator function to implement the iterator method
+const dragonArmy3 = {
+    [Symbol.iterator]: function*() {
+        while( true ){
+            const enoughDragonSpawned = Math.random() > 0.75
+            if(enoughDragonSpawned)
+                return // "return" inside a generator function will return "value: undefined" and "done: true"
+            yield makeDragon()
+        }
+    }
+}
+
+for(const dragon of dragonArmy3){
     console.log(dragon)
 }
