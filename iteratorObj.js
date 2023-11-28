@@ -24,7 +24,7 @@ const dragonArmy = {
     [Symbol.iterator]: () => {
         return{
             next: () => {
-                enoughDragonSpawned = Math.random() > 0.75
+                const enoughDragonSpawned = Math.random() > 0.75
                 if( !enoughDragonSpawned ){
                     return{
                         value: makeDragon(),
@@ -51,7 +51,7 @@ const dragonArmy2 = {
         // direcly in the object, we made him an iterator, so we return him ("this" keyword)
     },
     next: () => { // by implementing the "next()" method outside the @@iterator we can call it directly if we want
-        enoughDragonSpawned = Math.random() > 0.75
+        const enoughDragonSpawned = Math.random() > 0.75
         if( !enoughDragonSpawned ){
             return{
                 value: makeDragon(),
