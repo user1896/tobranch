@@ -77,8 +77,7 @@ myPromise.then( msg => {
     console.log(msg)
 } )
 console.log(3)
-// executed console.log(msg) as a response from the promise that has no asynchronous function, then we did console.log(2), result: 1-2-3-msg
-
+// executed console.log(msg) as a response from the promise that has no asynchronous function, then we did console.log(3), result: 1-2-3-msg
 /*
     We can see that Promises are not just a syntactic sugar that looks nice instead of using cllbacks, because that response that is used in
     the "resolve" or "reject" will be put into the "Web API" then the "Callback Queue" and it won't be executed until the "call stack" is empty.
@@ -89,3 +88,23 @@ console.log(3)
     to handle asynchronous tasks, because in the Promise's constructor when an async task gets added to the callback queue, we have the response
     get added as well, so it will be behind it in the queue.
 */
+
+// Promise.resolve(value)
+/*
+    It is a static method that works as a shorthand for "new Promise((resolve) => resolve(value))"
+    If the value is a promise, that promise is returned without creating a new Promise instance; if the value is a
+    thenable (an object that implements the .then() method), Promise.resolve() will call the then() method with two callbacks it prepared.
+*/
+
+// Promise.reject(reason)
+/*
+    It is a shorthand for "new Promise((resolve, reject) => reject(reason))", but unlike Promise.resolve(), the Promise.reject method does not
+    reuse existing Promise instances. It always returns a new Promise instance that wraps "reason" (Promise.resove(value) returns "value" if
+    "value" is a Promise, but Promise.reject(reason) always returns a new Promise that his response is rejecting "reason"), ex:
+*/
+const p = Promise.resolve(1);
+const rejected = Promise.reject(p);
+console.log(rejected === p); // false
+rejected.catch((v) => {
+    console.log(v === p); // true
+});
