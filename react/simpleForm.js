@@ -26,3 +26,22 @@ return (
     </form>
   </>
 );
+
+// Control a checkbox input with state. When it's chekced, we show the component
+const [show, setShow] = useState(true);
+
+return (
+  <div>
+    {show && <MyComponent />} 
+    <label>
+      <input
+        type="checkbox"
+        checked={show}
+        onChange={e => {
+          setShow(e.target.checked)
+        }}
+      />
+      Render the component
+    </label>
+  </div>
+)
