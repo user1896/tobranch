@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 
 export default function TaskApp() {
   const [stateVar, dispatch] = useReducer( // The useReducer Hook takes two arguments:
-    stateReducer, // 1. a reducer function
+    stateReducer, // 1. a reducer function (it's defined below, outside the component)
     [] // 2. an initial state
   );
 
@@ -42,9 +42,11 @@ export default function TaskApp() {
 // The function that holds the logic that updates the state depending on the "action type" is called a "reducer".
 // It takes two arguments, the "current state" and the "action object", and it returns the "next state":
 function stateReducer(currentState, action) {
-	// It’s a convention to use switch statements inside reducers
+	// It’s a convention to use "switch" statements inside reducers
   switch (action.type) {
     case 'added': {
+			// Reducers must be pure. Similar to "state updater functions", They should update objects and arrays 
+			// without mutations.
       return [{
         id: action.id,
         text: action.text
@@ -52,6 +54,39 @@ function stateReducer(currentState, action) {
     }
     case 'deleted': {
       return currentState.filter(t => t.id !== action.id);
+    }
+    default: {
+      throw Error('Unknown action: ' + action.type);
+    }
+  }
+}
+
+////////////////////////////////////
+// "use-immer" to write reducers in a mutating style.
+////////////////////////////////////
+
+// first install "immer" : "npm install use-immer"
+
+// second import it instead of "useReducer":
+import { useImmerReducer } from 'use-immer';
+
+// Now inside the component we declare the state like this:
+const [stateVar, dispatch] = useReducer(stateReducer, [])
+
+// The reducer function becomes like this:
+function stateReducer(draft, action) {
+	// Immer provides us with a special "draft" object which is safe to mutate
+  switch (action.type) {
+    case 'added': {
+			// So reducers managed by "useImmerReducer" can mutate their first argument and don’t need to return state.
+			draft.push({
+        id: action.id,
+        text: action.text
+      })
+			break // Because we don't return anything, we must use "break" to break from the "switch" loop statement.
+    }
+    case 'deleted': {
+      return draft.filter(t => t.id !== action.id);
     }
     default: {
       throw Error('Unknown action: ' + action.type);
